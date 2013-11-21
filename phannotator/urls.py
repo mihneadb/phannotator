@@ -1,12 +1,21 @@
 from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
+from django.conf import settings
+
+from frontend.views import IndexView, UploadView, ImageView
+
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'phannotator.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^upload/$', UploadView.as_view(), name='upload'),
+    url(r'^image/(?P<pk>[0-9]+)$', ImageView.as_view(), name='image'),
+
+    # MEDIA_URL = /imagedata/
+    url(r'^imagedata/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': settings.MEDIA_ROOT}),
 
     url(r'^admin/', include(admin.site.urls)),
 )
+
