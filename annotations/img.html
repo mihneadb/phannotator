@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html onmouseup="mouseUp(event);" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+  <title>Phannotator</title>
+  <script type="text/javascript" src="draw.js"></script>
+  <style type="text/css">
+    textarea { vertical-align: middle; }
+  </style>
+</head>
+<body onload="draw();" onmousedown="mouseDown(event);" onmousemove="mouseDrag(event);" onkeypress="kyPress(event);">
+  <form>
+    <fieldset id="annotations" style="position:absolute; width:300px; height:300px; top:0px; left:500px;" hidden>
+      <legend>Annotations</legend>
+      <table id="ftable">
+      </table>
+    </fieldset>
+  </form>
+
+</body>
+</html>
