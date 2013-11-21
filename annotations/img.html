@@ -5,16 +5,14 @@
   <script type="text/javascript" src="draw.js"></script>
   <style type="text/css">
     textarea { vertical-align: middle; }
+    button { font-size: 60%; }
   </style>
 </head>
-<body onload="draw();" onmousedown="mouseDown(event);" onmousemove="mouseDrag(event);" onkeypress="kyPress(event);">
-  <form>
+<body onload="draw();" onmousedown="mouseDown(event);" onmousemove="mouseDrag(event);" onkeypress="keyPress(event);">
     <fieldset id="annotations" style="position:absolute; width:300px; height:300px; top:0px; left:500px;" hidden>
       <legend>Annotations</legend>
-      <table id="ftable">
-      </table>
+      <table id="ftable"></table>
     </fieldset>
-  </form>
 
 </body>
 </html>

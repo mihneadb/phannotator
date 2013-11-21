@@ -1,13 +1,11 @@
 var drag = false;
 var topMargin = 30;
 var leftMargin = 30;
+var buttonWidth = 46;
+var buttonHeight = 18;
 var scaleFactor = 0.9;
 var img = "http://www.photoshopwebsite.com/wp-content/uploads/2009/12/image80.png";
 var tagColor = "rgba(100, 150, 240, 0.3)";
-// var startX, startY;
-// var minX, minY, maxX, maxY;
-// var canvas;
-// var context;
 var imgWidth, imgHeight;
 var annotations = new Array();
 
@@ -89,17 +87,35 @@ function newInfo(id) {
 
     this.save = document.createElement("button");
     this.save.id = "sav" + id;
-    this.save.setAttribute("onclick", "save(id);");
+    this.save.type = "button";
+    this.save.setAttribute("onclick", "saveTag(id);");
     this.save.innerHTML = "Save";
+    this.save.style.width = buttonWidth + "px";
+    this.save.style.height = buttonHeight + "px";
+
+    this.del = document.createElement("button");
+    this.del.id = "del" + id;
+    this.del.type = "button";
+    this.del.setAttribute("onclick", "deleteTag(id);");
+    this.del.innerHTML = "Delete";
+    this.del.style.width = buttonWidth + "px";
+    this.del.style.height = buttonHeight + "px";
 
     var table = document.getElementById("ftable");
     var tr = document.createElement("tr");
     var td1 = document.createElement("td");
     var td2 = document.createElement("td");
     var td3 = document.createElement("td");
+    var btable = document.createElement("table");
+    var btr1 = document.createElement("tr");
+    var btr2 = document.createElement("tr");
+    btr1.appendChild(this.save);
+    btr2.appendChild(this.del);
+    btable.appendChild(btr1);
+    btable.appendChild(btr2);
     td1.appendChild(this.checkbox);
     td2.appendChild(this.textarea);
-    td3.appendChild(this.save);
+    td3.appendChild(btable);
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
@@ -184,6 +200,10 @@ function mouseUp(event) {
 // button actions /////////////////////
 ///////////////////////////////////////
 
+function keyPress(event) {
+
+}
+
 function hide(id) {
     var number = parseInt(id.substring(3, id.length));
     var canvas = document.getElementById("cvs"+number);
@@ -194,7 +214,40 @@ function hide(id) {
     }
 }
 
-function save(id) {
+function saveTag(id) {
     console.log("save " + id);
-    setTimeout(function() {alert("??");}, 2000);
+    var number = parseInt(id.substring(3, id.length));
+    var textarea = document.getElementById("ann"+number);
+    textarea.readOnly = true;
+    textarea.disabled = true;
+    var save = document.getElementById("sav"+number);
+    save.id = "edt" + number;
+    save.innerHTML = "Edit";
+    save.setAttribute("onclick", "editTag(id)");
+}
+
+function editTag(id) {
+    console.log("edit " + id);
+    var number = parseInt(id.substring(3, id.length));
+    var textarea = document.getElementById("ann"+number);
+    textarea.readOnly = false;
+    textarea.disabled = false;
+    var edit = document.getElementById("edt"+number);
+    edit.innerHTML = "Save";
+    edit.setAttribute("onclick", "saveTag(id)");
+}
+
+function deleteTag(id) {
+    console.log("del " + id);
+    var number = parseInt(id.substring(3, id.length));
+    var canvas = document.getElementById("cvs"+number);
+    canvas.parentNode.removeChild(canvas);
+    var textarea = document.getElementById("ann"+number);
+    var tr = textarea.parentNode.parentNode;
+    tr.parentNode.removeChild(tr);
+    if (annotations.length >= number) {
+        annotations.splice(number-1, 1);
+    } else {
+        console.log("somewhere, something went wrong!");
+    }
 }
