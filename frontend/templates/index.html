@@ -1,0 +1,16 @@
+{% extends 'site_base.html' %}
+
+{% block content %}
+
+<a href="{% url 'upload' %}">Upload</a>
+
+<h2>Uploaded imgs:</h2>
+
+<ul>
+{% for img in imgs %}
+    <li><a href="{% url 'image' pk=img.pk %}">{{ img.title }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}
+
