@@ -1,4 +1,13 @@
 #img-viewer {
     width: 500px;
+    margin-left: 50px;
 }
 
+#annotations{
+    position: absolute;
+    top: 50px;
+    left: 900px;
+    height: 400px;
+    width:  340px;
+    overflow:auto;
+}

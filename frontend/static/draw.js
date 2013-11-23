@@ -1,6 +1,6 @@
 var drag = false;
-var topMargin = 30;
-var leftMargin = 30;
+var topMargin = 50;
+var leftMargin = 50;
 var buttonWidth = 46;
 var buttonHeight = 18;
 var scaleFactor = 0.9;
@@ -83,7 +83,7 @@ function newInfo(id) {
     this.textarea = document.createElement("textarea");
     this.textarea.id = "ann" + id;
     this.textarea.rows = 2;
-    this.textarea.cols = 30;
+    this.textarea.cols = 26;
 
     this.save = document.createElement("button");
     this.save.id = "sav" + id;
@@ -174,6 +174,11 @@ function mouseDrag(event) {
         tag.top = topMargin;
 
     resizeContainer(tag.container, tag.left, tag.top, tag.width, tag.height);
+
+    document.onmouseup = function(event){
+        mouseUp(event);
+        document.onmousemove = function(){};
+    }
 }
 
 function mouseUp(event) {

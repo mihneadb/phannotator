@@ -1,7 +1,22 @@
 {% extends 'site_base.html' %}
 
+{% block script %}
+    <script type="text/javascript" src="../static/draw.js"></script>
+
+    <style type="text/css">
+        textarea { vertical-align: middle; }
+        button { font-size: 60%; }
+    </style>
+{% endblock %}
+
 {% block content %}
 
-<img id="img-viewer" src="{{ imgurl }}"/>
+    <img id="img-viewer" src="{{ imgurl }}" onmousedown="mouseDown(event);"
+                                            onmousemove="mouseDrag(event);"/>
+
+    <fieldset id="annotations" >
+        <legend>Annotations</legend>
+        <table id="ftable"></table>
+    </fieldset>
 
 {% endblock %}
