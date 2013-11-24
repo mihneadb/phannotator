@@ -17,3 +17,9 @@ class Image(models.Model):
         # see upload_handler
         return '%s%s' % (settings.MEDIA_URL, self.file.name)
 
+
+class Annotate(models.Model):
+    description = models.CharField(max_length=200)
+    image = models.ForeignKey(Image)
+
+
