@@ -3,6 +3,8 @@ var canvas = $canvas.get(0);
 var context = canvas.getContext('2d');
 var img = null;
 
+var $annotationAddDiv = $("#annotation-add-div");
+
 var dx = $canvas.offset().left;
 var dy = $canvas.offset().top;
 
@@ -58,7 +60,27 @@ $canvas.on("mouseup", function (e) {
             width: coords.x - startX,
             height: coords.y - startY,
         };
-        annotations.push(rect);
+
+        $annotationAddDiv.toggleClass("hide");
+
+        var x = $(window).width() / 2 - $annotationAddDiv.width() / 2;
+        var y = $(window).height() / 2 - $annotationAddDiv.height() / 2;
+        $annotationAddDiv.css({
+            left: x + "px",
+            top: y + "px"
+        })
+
+        $("#annotation-add-btn").on("click", function (e) {
+            var $annotationAddInput = $("#annotation-add-input");
+            var input = $annotationAddInput.get(0);
+            var name = input.value;
+            rect.name = name;
+            annotations.push(rect);
+            input.value = "";
+            $annotationAddDiv.addClass("hide");
+
+            // now send to server
+        });
     }
 })
 
