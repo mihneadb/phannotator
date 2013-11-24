@@ -61,6 +61,8 @@ function getAnnotations() {
         type: "GET",
         url: "/api/annotations/get/" + imgpk,
         success: function (data, status) {
+            annotations = [];
+            $annotationSelect.empty();
             for (var i = 0; i < data.length; i++) {
                 var o = data[i];
                 var fields = o.fields;
@@ -73,8 +75,10 @@ function getAnnotations() {
                     pk: o.pk,
                 };
                 annotations.push(r);
+                $annotationSelect.append($('<option value="' + r.name + '">' + r.name + '</option>'));
                 redraw();
             }
+            annotationSelect.selectedIndex = data.length - 1;
             setFormAction();
         },
     });
@@ -159,6 +163,7 @@ $canvas.on("mouseup", function (e) {
                     name: rect.name,
                 },
                 success: function (data, status) {
+                    getAnnotations();
                 },
             });
         });
