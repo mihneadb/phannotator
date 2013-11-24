@@ -80,9 +80,20 @@ function getAnnotations() {
 
 function setFormAction() {
     var name = annotationSelect.selectedOptions[0].label;
-    var ann = annotations.filter(function (e) {
-        return e.name == name;
-    })[0];
+    var ann = null;
+    annotations.forEach(function (e) {
+        e.selected = false;
+        if (e.name == name) {
+            ann = e;
+        }
+    });
+
+    if (!ann) {
+        return;
+    }
+
+    ann.selected = true;
+    redraw();
 
     commentForm.action = "/comment/add/" + imgpk + "/" + ann.pk;
 }
@@ -153,8 +164,10 @@ function redraw() {
 
     for (var i = 0; i < annotations.length; i++) {
         var r = annotations[i];
-        context.strokeStyle = "red";
-        context.strokeRect(r.x, r.y, r.width, r.height);
+        if (r.selected) {
+            context.strokeStyle = "red";
+            context.strokeRect(r.x, r.y, r.width, r.height);
+        }
     }
 }
 
