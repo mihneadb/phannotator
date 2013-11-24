@@ -64,8 +64,8 @@ function getAnnotations() {
                     pk: fields.pk,
                 };
                 annotations.push(r);
+                redraw();
             }
-            redraw();
         },
     });
 }

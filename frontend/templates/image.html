@@ -5,12 +5,6 @@
 <script src="{%  static 'js/annotate.js' %}"></script>
 {%  endblock %}
 
-
-    <style type="text/css">
-        textarea { vertical-align: middle; }
-        button { font-size: 60%; }
-    </style>
-
 {% block content %}
     <canvas id="img-viewer" data-img-src="{{ imgurl }}" data-img-pk="{{ imgpk }}"></canvas>
 
@@ -23,9 +17,24 @@
         </div>
     </div>
 
-    <fieldset id="annotations" >
-        <legend>Annotations</legend>
-        <table id="ftable"></table>
-    </fieldset>
+    <div class="row" id="comments">
+        <h2 id="current-annotation">Annotation name</h2>
+
+        {%  for comment in comments %}
+        <div class="comment">
+            <p>{{ comment.text }}</p>
+            <p>by {{ comment.author }}</p>
+        </div>
+        {% endfor %}
+
+        <div class="add-comment-div">
+            <form action="{% url 'add_comment' imgpk %}" method="post">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <input type="submit" value="Add comment" />
+            </form>
+        </div>
+
+    </div>
 
 {% endblock %}

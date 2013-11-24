@@ -1,8 +1,9 @@
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect, get_object_or_404
 
-from frontend.forms import UploadImageForm
-from server.models import Image
+from frontend.forms import UploadImageForm, AddCommentForm
+from server.models import Image, Comment
+
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -31,6 +32,10 @@ class ImageView(TemplateView):
 
     def get(self, request, pk=None):
         img = get_object_or_404(Image, pk=pk)
+        comment_form = AddCommentForm()
+        comments = Comment.objects.filter(image=img)
         return render(request, self.template_name, {'imgurl': img.fetch_url,
-                                                    'imgpk': img.pk})
+                                                    'imgpk': img.pk,
+                                                    'comment_form': comment_form,
+                                                    'comments': comments})
 

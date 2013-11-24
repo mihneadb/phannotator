@@ -1,6 +1,7 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse
 from django.core import serializers
+from frontend.forms import AddCommentForm
 
 from server.models import Image, Annotation
 
@@ -32,3 +33,15 @@ def get_annotations(request, pk):
     print data
 
     return HttpResponse(data, mimetype='application/json')
+
+def add_comment(request, imgpk):
+    if request.method != 'POST':
+        return HttpResponse(status=403)
+
+    img = get_object_or_404(Image, pk=imgpk)
+    form = AddCommentForm(request.POST)
+    if form.is_valid():
+        c = form.save(False)
+        c.image = img
+        c.save()
+    return redirect('image', pk=imgpk)
