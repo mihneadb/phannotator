@@ -1,7 +1,8 @@
 {% extends 'site_base.html' %}
+{% load static %}
 
 {% block script %}
-    <script type="text/javascript" src="../static/draw.js"></script>
+<script type="text/javascript" src="{% static 'js/draw.js' %}"></script>
 
     <style type="text/css">
         textarea { vertical-align: middle; }
