@@ -9,9 +9,6 @@
     <title>{% block title %}Phannotator{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    {% block script %}
-
-    {% endblock %}
 
 </head>
 <body>
@@ -21,6 +18,9 @@
 {% block content %}
 {% endblock %}
 
+<script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
+{%  block script %}
+{%  endblock %}
 </body>
 </html>
 

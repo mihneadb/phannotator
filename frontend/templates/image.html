@@ -1,19 +1,18 @@
 {% extends 'site_base.html' %}
 {% load static %}
 
-{% block script %}
-<script type="text/javascript" src="{% static 'js/draw.js' %}"></script>
+{%  block script %}
+<script src="{%  static 'js/annotate.js' %}"></script>
+{%  endblock %}
+
 
     <style type="text/css">
         textarea { vertical-align: middle; }
         button { font-size: 60%; }
     </style>
-{% endblock %}
 
 {% block content %}
-
-    <img id="img-viewer" src="{{ imgurl }}" onmousedown="mouseDown(event);"
-                                            onmousemove="mouseDrag(event);"/>
+    <canvas id="img-viewer" data-img-src="{{ imgurl }}"></canvas>
 
     <fieldset id="annotations" >
         <legend>Annotations</legend>
