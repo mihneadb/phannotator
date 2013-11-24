@@ -1,3 +1,4 @@
+var $canvasDiv = $("#img-viewer-div");
 var $canvas = $("#img-viewer");
 var canvas = $canvas.get(0);
 var context = canvas.getContext('2d');
@@ -11,13 +12,15 @@ var annotationSelect = $annotationSelect.get(0);
 var $commentForm = $("#comment-form");
 var commentForm = $commentForm.get(0);
 
-var dx = $canvas.offset().left;
-var dy = $canvas.offset().top;
+var dx = null;
+var dy = null;
 
 var csrf = $("html").data("csrf");
 var imgpk = $canvas.data("img-pk");
 
 function coordsInCanvas(x, y) {
+    dx = $canvas.offset().left;
+    dy = $canvas.offset().top;
     return {x: x - dx, y: y - dy};
 }
 
@@ -79,7 +82,10 @@ function getAnnotations() {
 
 
 function setFormAction() {
-    var name = annotationSelect.selectedOptions[0].label;
+    if (annotationSelect.selectedIndex == -1) {
+        return;
+    }
+    var name = annotationSelect.options[annotationSelect.selectedIndex].label;
     var ann = null;
     annotations.forEach(function (e) {
         e.selected = false;
@@ -96,13 +102,14 @@ function setFormAction() {
     redraw();
 
     commentForm.action = "/comment/add/" + imgpk + "/" + ann.pk;
+    $("#current-annotation")[0].innerHTML = ann.name;
 }
 $annotationSelect.on("change", setFormAction);
 
 $canvas.on("mousedown", function (e) {
     mouseIsDown = true;
     drawedRect = false;
-    var coords = coordsInCanvas(e.pageX, e.pageY);
+    var coords = coordsInCanvas(e.clientX, e.clientY);
     startX = coords.x;
     startY = coords.y;
 });
@@ -111,7 +118,7 @@ $canvas.on("mouseup", function (e) {
     mouseIsDown = false;
     if (drawedRect) {
         drawedRect = false;
-        var coords = coordsInCanvas(e.pageX, e.pageY);
+        var coords = coordsInCanvas(e.clientX, e.clientY);
         var rect = {
             x: startX,
             y: startY,
@@ -179,7 +186,7 @@ $canvas.on("mousemove", function(e) {
 
     redraw();
 
-    var coords = coordsInCanvas(e.pageX, e.pageY);
+    var coords = coordsInCanvas(e.clientX, e.clientY);
     context.strokeStyle = "red";
     context.strokeRect(startX, startY, coords.x - startX, coords.y - startY);
 })

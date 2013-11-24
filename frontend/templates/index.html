@@ -2,15 +2,19 @@
 
 {% block content %}
 
-<a href="{% url 'upload' %}">Upload</a>
+    <div class="text-center small-8 columns small-centered">
+        <a class="button" href="{% url 'upload' %}">Upload</a>
 
-<h2>Uploaded imgs:</h2>
+        <div class="panel" id="uploaded-list">
+            <h2>Uploaded images:</h2>
 
-<ul>
-{% for img in imgs %}
-    <li><a href="{% url 'image' pk=img.pk %}">{{ img.title }}</a></li>
-{% endfor %}
-</ul>
+            <ul>
+                {% for img in imgs %}
+                    <li><a href="{% url 'image' pk=img.pk %}">{{ img.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
 {% endblock %}
 

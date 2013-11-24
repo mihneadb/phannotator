@@ -15,10 +15,12 @@
 </head>
 <body>
 
-<h1>Phannotator</h1>
+<a href="/"><h1 class="text-center">Phannotator</h1></a>
 
-{% block content %}
-{% endblock %}
+<div class="content row">
+    {% block content %}
+    {% endblock %}
+</div>
 
 <script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
 {%  block script %}
