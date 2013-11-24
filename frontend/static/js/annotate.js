@@ -2,11 +2,15 @@ var $canvas = $("#img-viewer");
 var canvas = $canvas.get(0);
 var context = canvas.getContext('2d');
 var img = null;
+var displaySize = null;
 
 var $annotationAddDiv = $("#annotation-add-div");
 
 var dx = $canvas.offset().left;
 var dy = $canvas.offset().top;
+
+var csrf = $("html").data("csrf");
+var imgpk = $canvas.data("img-pk");
 
 function coordsInCanvas(x, y) {
     return {x: x - dx, y: y - dy};
@@ -43,8 +47,34 @@ var startY = null;
 
 var annotations = [];
 
+function getAnnotations() {
+    $.ajax({
+        type: "GET",
+        url: "/api/annotations/get/" + imgpk,
+        success: function (data, status) {
+            for (var i = 0; i < data.length; i++) {
+                var o = data[i];
+                var fields = o.fields;
+                var r = {
+                    height: fields.height,
+                    width: fields.width,
+                    x: fields.x,
+                    y: fields.y,
+                    name: fields.name,
+                    pk: fields.pk,
+                };
+                annotations.push(r);
+            }
+            redraw();
+        },
+    });
+}
+
+getAnnotations();
+
 $canvas.on("mousedown", function (e) {
     mouseIsDown = true;
+    drawedRect = false;
     var coords = coordsInCanvas(e.pageX, e.pageY);
     startX = coords.x;
     startY = coords.y;
@@ -53,6 +83,7 @@ $canvas.on("mousedown", function (e) {
 $canvas.on("mouseup", function (e) {
     mouseIsDown = false;
     if (drawedRect) {
+        drawedRect = false;
         var coords = coordsInCanvas(e.pageX, e.pageY);
         var rect = {
             x: startX,
@@ -80,6 +111,22 @@ $canvas.on("mouseup", function (e) {
             $annotationAddDiv.addClass("hide");
 
             // now send to server
+            $.ajax({
+                type: "POST",
+                url: "/api/annotations/add",
+                data: {
+                    csrfmiddlewaretoken: csrf,
+                    state: "inactive",
+                    imgpk: imgpk,
+                    x: rect.x,
+                    y: rect.y,
+                    width: rect.width,
+                    height: rect.height,
+                    name: rect.name,
+                },
+                success: function (data, status) {
+                },
+            });
         });
     }
 })

@@ -31,5 +31,6 @@ class ImageView(TemplateView):
 
     def get(self, request, pk=None):
         img = get_object_or_404(Image, pk=pk)
-        return render(request, self.template_name, {'imgurl': img.fetch_url})
+        return render(request, self.template_name, {'imgurl': img.fetch_url,
+                                                    'imgpk': img.pk})
 
