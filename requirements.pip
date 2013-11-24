@@ -1,2 +1,2 @@
 #Usage: pip install -r requirements-pip
-django
+Django==1.6
