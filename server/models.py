@@ -32,5 +32,5 @@ class Comment(models.Model):
     text = models.CharField(max_length=500)
     # let's be just a name for the start
     author = models.CharField(max_length=50)
-    #annotation = models.ForeignKey(Annotation)
+    annotation = models.ForeignKey(Annotation)
     image = models.ForeignKey(Image)

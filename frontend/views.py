@@ -34,8 +34,10 @@ class ImageView(TemplateView):
         img = get_object_or_404(Image, pk=pk)
         comment_form = AddCommentForm()
         comments = Comment.objects.filter(image=img)
+        anns = img.annotation_set.all()
         return render(request, self.template_name, {'imgurl': img.fetch_url,
                                                     'imgpk': img.pk,
                                                     'comment_form': comment_form,
-                                                    'comments': comments})
+                                                    'comments': comments,
+                                                    'annotations': anns,})
 

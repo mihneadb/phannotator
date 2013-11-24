@@ -30,18 +30,18 @@ def get_annotations(request, pk):
     anns = Annotation.objects.filter(image=img).all()
     data = serializers.serialize('json', anns)
 
-    print data
-
     return HttpResponse(data, mimetype='application/json')
 
-def add_comment(request, imgpk):
+def add_comment(request, imgpk, annpk):
     if request.method != 'POST':
         return HttpResponse(status=403)
 
     img = get_object_or_404(Image, pk=imgpk)
+    ann = get_object_or_404(Annotation, pk=annpk)
     form = AddCommentForm(request.POST)
     if form.is_valid():
         c = form.save(False)
         c.image = img
+        c.annotation = ann
         c.save()
     return redirect('image', pk=imgpk)

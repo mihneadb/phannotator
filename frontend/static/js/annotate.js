@@ -5,6 +5,11 @@ var img = null;
 var displaySize = null;
 
 var $annotationAddDiv = $("#annotation-add-div");
+var $annotationSelect = $("#annotation-select");
+var annotationSelect = $annotationSelect.get(0);
+
+var $commentForm = $("#comment-form");
+var commentForm = $commentForm.get(0);
 
 var dx = $canvas.offset().left;
 var dy = $canvas.offset().top;
@@ -36,6 +41,7 @@ function showImage() {
         canvas.height = displaySize.height;
         canvas.width = displaySize.width;
         context.drawImage(img, 0, 0, displaySize.width, displaySize.height);
+        getAnnotations();
     }
     img.src = $canvas.data("img-src");
 }
@@ -61,16 +67,26 @@ function getAnnotations() {
                     x: fields.x,
                     y: fields.y,
                     name: fields.name,
-                    pk: fields.pk,
+                    pk: o.pk,
                 };
                 annotations.push(r);
                 redraw();
             }
+            setFormAction();
         },
     });
 }
 
-getAnnotations();
+
+function setFormAction() {
+    var name = annotationSelect.selectedOptions[0].label;
+    var ann = annotations.filter(function (e) {
+        return e.name == name;
+    })[0];
+
+    commentForm.action = "/comment/add/" + imgpk + "/" + ann.pk;
+}
+$annotationSelect.on("change", setFormAction);
 
 $canvas.on("mousedown", function (e) {
     mouseIsDown = true;

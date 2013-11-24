@@ -19,21 +19,31 @@
 
     <div class="row" id="comments">
         <h2 id="current-annotation">Annotation name</h2>
+        <select id="annotation-select">
+            {% for ann in annotations %}
+                <option value="{{ ann.name }}">{{ ann.name }}</option>
+            {% endfor %}
+        </select>
 
         {%  for comment in comments %}
         <div class="comment">
             <p>{{ comment.text }}</p>
             <p>by {{ comment.author }}</p>
+            <p>on {{ comment.annotation.name }}</p>
         </div>
         {% endfor %}
 
+        {% if annotations %}
         <div class="add-comment-div">
-            <form action="{% url 'add_comment' imgpk %}" method="post">
+            <form action="{% url 'add_comment' imgpk 0 %}" method="post" id="comment-form">
                 {% csrf_token %}
                 {{ comment_form.as_p }}
                 <input type="submit" value="Add comment" />
             </form>
         </div>
+        {% else %}
+        <h3>No annotations yet, cannot comment.</h3>
+        {% endif %}
 
     </div>
 
