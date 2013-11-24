@@ -12,6 +12,8 @@ var annotationSelect = $annotationSelect.get(0);
 var $commentForm = $("#comment-form");
 var commentForm = $commentForm.get(0);
 
+var $spinner;
+
 var dx = null;
 var dy = null;
 
@@ -45,8 +47,18 @@ function showImage() {
         canvas.width = displaySize.width;
         context.drawImage(img, 0, 0, displaySize.width, displaySize.height);
         getAnnotations();
+        $spinner.addClass("hide");
     }
     img.src = $canvas.data("img-src");
+
+    $spinner = $("#spinner");
+    var x = $(window).width() / 2 - $spinner.width() / 2;
+    console.log($canvasDiv.offset().top);
+    var y = $canvasDiv.offset().top + $spinner.height() / 2;
+    $spinner.css({
+        left: x + "px",
+        top: y + "px"
+    })
 }
 
 var mouseIsDown = false;
