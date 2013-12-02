@@ -15,15 +15,16 @@
             <button class="small" id="annotation-add-btn">Set</button>
         </div>
     </div>
-
     <div class="spinner" id="spinner"></div>
 
-    <div class="row text-center" id="img-viewer-div">
-        <canvas id="img-viewer" data-img-src="{{ imgurl }}" data-img-pk="{{ imgpk }}"></canvas>
+    <div class="row" style="height:25px;background-color:#d3d3d3;">
     </div>
-
     <div class="row" id="comments">
-        <div class="small-7 columns small-centered">
+        <div class="small-5 columns" id="img-viewer-div">
+            <canvas id="img-viewer" data-img-src="{{ imgurl }}" data-img-pk="{{ imgpk }}"></canvas>
+        </div>
+
+        <div class="small-4 columns">
             <h3 class="text-center" id="current-annotation">No annotations yet.</h3>
             <select id="annotation-select">
                 {% for ann in annotations %}

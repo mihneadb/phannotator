@@ -26,8 +26,8 @@ function coordsInCanvas(x, y) {
     return {x: x - dx, y: y - dy};
 }
 
-var MAX_WIDTH = 800;
-var MAX_HEIGHT = 800;
+var MAX_WIDTH = 600;
+var MAX_HEIGHT = 400;
 
 function newSize(width, height) {
     var ratio;
