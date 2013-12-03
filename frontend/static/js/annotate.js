@@ -179,6 +179,13 @@ $canvas.on("mouseup", function (e) {
                 },
             });
         });
+        $("#annotation-cancel-btn").on("click", function(e) {
+            var $annotationAddInput = $("#annotation-add-input");
+            var input = $annotationAddInput.get(0);
+            input.value = "";
+            $annotationAddDiv.addClass("hide");
+            getAnnotations();
+        });
     }
 })
 
