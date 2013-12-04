@@ -150,40 +150,44 @@ $canvas.on("mouseup", function (e) {
             left: x + "px",
             top: y + "px"
         })
-
+        var annotationClick = true;
         $("#annotation-add-btn").on("click", function (e) {
             var $annotationAddInput = $("#annotation-add-input");
             var input = $annotationAddInput.get(0);
             var name = input.value;
             rect.name = name;
-            annotations.push(rect);
-            input.value = "";
-            $annotationAddDiv.addClass("hide");
 
             // now send to server
-            $.ajax({
-                type: "POST",
-                url: "/api/annotations/add",
-                data: {
-                    csrfmiddlewaretoken: csrf,
-                    state: "inactive",
-                    imgpk: imgpk,
-                    x: rect.x,
-                    y: rect.y,
-                    width: rect.width,
-                    height: rect.height,
-                    name: rect.name,
-                },
-                success: function (data, status) {
-                    getAnnotations();
-                },
-            });
+            if(annotationClick){
+                $.ajax({
+                    type: "POST",
+                    url: "/api/annotations/add",
+                    data: {
+                        csrfmiddlewaretoken: csrf,
+                        state: "inactive",
+                        imgpk: imgpk,
+                        x: rect.x,
+                        y: rect.y,
+                        width: rect.width,
+                        height: rect.height,
+                        name: rect.name,
+                    },
+                    success: function (data, status) {
+                        getAnnotations();
+                        $annotationAddDiv.addClass("hide");
+                        annotations.push(rect);
+                        annotationClick = false;
+                        input.value = "";
+                    },
+                });
+            }
         });
         $("#annotation-cancel-btn").on("click", function(e) {
             var $annotationAddInput = $("#annotation-add-input");
             var input = $annotationAddInput.get(0);
             input.value = "";
             $annotationAddDiv.addClass("hide");
+            annotationClick = false;
             getAnnotations();
         });
     }
