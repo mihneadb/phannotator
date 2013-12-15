@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from frontend.forms import UploadImageForm, AddCommentForm
 from server.models import Image, Comment
-
+import urllib
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -26,6 +26,27 @@ class UploadView(TemplateView):
             form.save()
         lastImage = len(Image.objects.all())
         return redirect('/image/' + str(lastImage))
+
+class UploadUrlView(TemplateView):
+    template_name = "upload_url.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+
+        url_file = request.POST['url']
+        title = request.POST['title'].replace (" ", "_")
+
+        urllib.urlretrieve(url_file, 'uploads/' + title)
+
+        image = Image(title=request.POST['title'], file=title)
+        image.save()
+
+
+        lastImage = len(Image.objects.all())
+        return redirect('/image/' + str(lastImage))
+
 
 
 class ImageView(TemplateView):

@@ -3,16 +3,20 @@
 {% block content %}
 
     <div class="text-center small-8 columns small-centered">
-        <a class="button" href="{% url 'upload' %}">Upload</a>
+        
+        <div class="panel" id="upload-file">
+            <h3>Upload from file:</h3>
+            <a class="button" href="{% url 'upload' %}">Upload</a>
+        </div>
 
-        <div class="panel" id="uploaded-list">
-            <h2>Uploaded images:</h2>
-
-            <ul>
-                {% for img in imgs %}
-                    <li><a href="{% url 'image' pk=img.pk %}">{{ img.title }}</a></li>
-                {% endfor %}
-            </ul>
+        <div class="panel" id="upload-url">
+            <h3>Upload from url:</h3>
+            <a class="button" href="{% url 'upload_url' %}">Upload</a>
+            <form action="{% url 'upload_url' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="textfield" id="url-tf"/>
+                <input type="submit" id="url-btn" value="Upload"/>
+            </form>
         </div>
     </div>
 

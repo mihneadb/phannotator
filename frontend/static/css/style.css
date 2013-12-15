@@ -42,8 +42,20 @@
     overflow: auto;
 }
 
-#uploaded-list {
-    margin-top: 50px;
+#upload-file {
+    margin-top: 75px;
+}
+
+#upload-url {
+    margin-top: 25px;
+}
+
+#upload-div{
+    margin-top: 75px;
+}
+
+#url-tf{
+    width:70%;
 }
 
 #spinner {

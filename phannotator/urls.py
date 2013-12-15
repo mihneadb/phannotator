@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 
-from frontend.views import IndexView, UploadView, ImageView
+from frontend.views import IndexView, UploadView, UploadUrlView, ImageView
 
 
 admin.autodiscover()
@@ -10,6 +10,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^upload/$', UploadView.as_view(), name='upload'),
+    url(r'^upload-url/$', UploadUrlView.as_view(), name='upload_url'),
     url(r'^image/(?P<pk>[0-9]+)$', ImageView.as_view(), name='image'),
 
     url(r'^comment/add/(?P<imgpk>[0-9]+)/(?P<annpk>[0-9]+)$', 'server.views.add_comment', name='add_comment'),

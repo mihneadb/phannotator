@@ -1,0 +1,30 @@
+{% extends 'site_base.html' %}
+
+{% block content %}
+
+<div class="text-left small-8 columns small-centered" id="upload-div">
+    <form action="{% url 'upload_url' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <tr>
+            <th>
+                <label for="id_title">Title:</label>
+            </th>
+            <td>
+                <input id="id_title" maxlength="50" name="title" type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="id_url">Url:</label>
+            </th>
+            <td>
+                <input id="id_url" name="url" type="text" />
+            </td>
+        </tr>
+
+        <input type="submit" value="Upload" />
+    </form>
+</div>
+{% endblock %}
+
