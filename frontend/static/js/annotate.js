@@ -188,6 +188,7 @@ $canvas.on("mouseup", function (e) {
             input.value = "";
             $annotationAddDiv.addClass("hide");
             annotationClick = false;
+            redraw();
             getAnnotations();
         });
     }
