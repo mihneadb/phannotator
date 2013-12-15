@@ -135,8 +135,8 @@ function deleteAnnotation() {
                 name: name,
             },
         success: function (data, status) {
-            getAnnotations();
-            //todo: issue if you delete all of the annotations
+            // reload page after delete, so we refetch all existing annotations
+            location.reload(true);
         },
     });
 }
