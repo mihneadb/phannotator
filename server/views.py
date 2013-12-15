@@ -22,6 +22,17 @@ def add_annotation(request):
 
     return HttpResponse(status=200)
 
+def delete_annotation(request):
+    if request.method != "POST":
+        return HttpResponse(status=403)
+
+    name = request.POST['name']
+    imgpk = int(request.POST['imgpk'])
+    img = get_object_or_404(Image, pk=imgpk)
+    ann = Annotation.objects.get(image=img, name=name)
+    ann.delete()
+    return HttpResponse(status=200)
+
 def get_annotations(request, pk):
     if request.method != "GET":
         return HttpResponse(status=403)

@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="row">
-            <div class"small-1 columns">
+            <div class="small-1 columns">
             </div>
             <div class="small-3 small-offset-3 columns">
                 <button class="button tiny" id="annotation-add-btn">Save</button>
@@ -27,20 +27,34 @@
     </div>
     <div class="spinner" id="spinner"></div>
 
-    <div class="row" style="height:15px;background-color:#d3d3d3;">
+    <div class="row" style="height:15px;background-color:#d3d3d3; border:solid">
     </div>
     <div class="row" id="comments">
         <div class="small-8 columns" id="img-viewer-div">
             <canvas id="img-viewer" data-img-src="{{ imgurl }}" data-img-pk="{{ imgpk }}"></canvas>
         </div>
 
-        <div class="small-4 columns">
-            <h3 class="text-center" id="current-annotation">No annotations yet.</h3>
+        <div class="small-4 columns"  style="border: solid 2px">
             <select id="annotation-select">
                 {% for ann in annotations %}
                     <option value="{{ ann.name }}">{{ ann.name }}</option>
                 {% endfor %}
             </select>
+
+            <div class="row">
+                <!--
+                <div class="small-1 columns">
+                    <span class="input-group-addon">
+                        <input type="checkbox" id="annotation-checkbox">
+                    </span>
+                </div>-->
+                <div class="small-7 columns">
+                    <h3 class="text-center" id="current-annotation">No annotations yet.</h3>
+                </div>
+                <div class="small-3 columns">
+                    <button class="button tiny" id="annotation-delete-btn">Delete</button>
+                </div>
+            </div>
 
             {%  for comment in comments %}
                 <div class="comment panel">

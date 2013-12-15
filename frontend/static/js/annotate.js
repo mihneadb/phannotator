@@ -120,6 +120,28 @@ function setFormAction() {
 }
 $annotationSelect.on("change", setFormAction);
 
+function deleteAnnotation() {
+    if (annotationSelect.selectedIndex == -1) {
+        return;
+    }
+    var name = annotationSelect.options[annotationSelect.selectedIndex].label;
+    $.ajax({
+        type: "POST",
+            url: "/api/annotations/delete",
+            data: {
+                csrfmiddlewaretoken: csrf,
+                state: "inactive",
+                imgpk: imgpk,
+                name: name,
+            },
+        success: function (data, status) {
+            getAnnotations();
+            //todo: issue if you delete all of the annotations
+        },
+    });
+}
+$("#annotation-delete-btn").on("click", deleteAnnotation);
+
 $canvas.on("mousedown", function (e) {
     if (setAnnotation == true)
         return;
@@ -150,7 +172,6 @@ $canvas.on("mouseup", function (e) {
             redraw();
             return;
         }
-
 
         var x = $(window).width() / 2 - $annotationAddDiv.width() / 2;
         var y = $(window).height() / 2 - $annotationAddDiv.height() / 2;
