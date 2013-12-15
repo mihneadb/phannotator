@@ -1,5 +1,6 @@
 *.sqlite3
 *.pyc
+*.sw*
 
 uploads/
 .idea/
