@@ -43,9 +43,7 @@ class UploadUrlView(TemplateView):
         image = Image(title=request.POST['title'], file=title)
         image.save()
 
-
-        lastImage = len(Image.objects.all())
-        return redirect('/image/' + str(lastImage))
+        return redirect('/image/' + str(image.pk))
 
 
 

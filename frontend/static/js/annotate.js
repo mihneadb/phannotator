@@ -203,11 +203,8 @@ $canvas.on("mouseup", function (e) {
                         name: rect.name,
                     },
                     success: function (data, status) {
-                        getAnnotations();
-                        $annotationAddDiv.addClass("hide");
-                        annotations.push(rect);
-                        annotationClick = false;
-                        input.value = "";
+                        // hack: refresh page as new annotations were added.
+                        location.reload(true);
                     },
                 });
             }
