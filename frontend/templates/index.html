@@ -12,11 +12,6 @@
         <div class="panel" id="upload-url">
             <h3>Upload from url:</h3>
             <a class="button" href="{% url 'upload_url' %}">Upload</a>
-            <form action="{% url 'upload_url' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="textfield" id="url-tf"/>
-                <input type="submit" id="url-btn" value="Upload"/>
-            </form>
         </div>
     </div>
 
