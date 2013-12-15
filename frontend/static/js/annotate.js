@@ -19,6 +19,7 @@ var dy = null;
 
 var csrf = $("html").data("csrf");
 var imgpk = $canvas.data("img-pk");
+var setAnnotation = false;
 
 function coordsInCanvas(x, y) {
     dx = $canvas.offset().left;
@@ -96,7 +97,6 @@ function getAnnotations() {
     });
 }
 
-
 function setFormAction() {
     if (annotationSelect.selectedIndex == -1) {
         return;
@@ -109,11 +109,9 @@ function setFormAction() {
             ann = e;
         }
     });
-
     if (!ann) {
         return;
     }
-
     ann.selected = true;
     redraw();
 
@@ -123,6 +121,8 @@ function setFormAction() {
 $annotationSelect.on("change", setFormAction);
 
 $canvas.on("mousedown", function (e) {
+    if (setAnnotation == true)
+        return;
     mouseIsDown = true;
     drawedRect = false;
     var coords = coordsInCanvas(e.clientX, e.clientY);
@@ -131,6 +131,9 @@ $canvas.on("mousedown", function (e) {
 });
 
 $canvas.on("mouseup", function (e) {
+    if (setAnnotation == true)
+        return;
+    setAnnotation = true;
     mouseIsDown = false;
     if (drawedRect) {
         drawedRect = false;
@@ -141,8 +144,13 @@ $canvas.on("mouseup", function (e) {
             width: coords.x - startX,
             height: coords.y - startY,
         };
-
         $annotationAddDiv.toggleClass("hide");
+
+        if (rect.width < 20 && rect.height < 20) {
+            redraw();
+            return;
+        }
+
 
         var x = $(window).width() / 2 - $annotationAddDiv.width() / 2;
         var y = $(window).height() / 2 - $annotationAddDiv.height() / 2;
@@ -152,6 +160,7 @@ $canvas.on("mouseup", function (e) {
         })
         var annotationClick = true;
         $("#annotation-add-btn").on("click", function (e) {
+            setAnnotation = false;
             var $annotationAddInput = $("#annotation-add-input");
             var input = $annotationAddInput.get(0);
             var name = input.value;
@@ -183,6 +192,7 @@ $canvas.on("mouseup", function (e) {
             }
         });
         $("#annotation-cancel-btn").on("click", function(e) {
+            setAnnotation = false;
             var $annotationAddInput = $("#annotation-add-input");
             var input = $annotationAddInput.get(0);
             input.value = "";
