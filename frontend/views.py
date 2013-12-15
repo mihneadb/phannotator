@@ -24,7 +24,8 @@ class UploadView(TemplateView):
         form = UploadImageForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-        return redirect('index')
+        lastImage = len(Image.objects.all())
+        return redirect('/image/' + str(lastImage))
 
 
 class ImageView(TemplateView):
