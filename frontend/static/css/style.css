@@ -79,7 +79,7 @@ html, body {
 }
 
 #comments-container {
-    max-height: 340px;
+    max-height: 230px;
     overflow: scroll;
 }
 
