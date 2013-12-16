@@ -128,3 +128,8 @@ html, body {
 label {
   color: white !important;
 }
+
+.add-comment-div label {
+  color: black !important;
+}
+
