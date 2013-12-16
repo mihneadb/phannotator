@@ -82,6 +82,11 @@ html, body {
     overflow: scroll;
 }
 
+#images-container {
+  max-height: 170px;
+  overflow: auto;
+}
+
 /*spinner from http://www.designcouch.com/home/why/2013/05/23/dead-simple-pure-css-loading-spinner/ */
 .spinner {
     z-index: 1000;

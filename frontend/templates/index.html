@@ -13,6 +13,19 @@
             <h3>Upload from url:</h3>
             <a class="button" href="{% url 'upload_url' %}">Upload</a>
         </div>
+
+        <form id="search-images" action="{% url 'index' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Search" />
+        </form>
+
+        <div class="panel" id="images-container">
+            {% for img in imgs %}
+                <a href="{% url 'image' img.pk %}">{{ img.title }}</a>
+                <br />
+            {% endfor %}
+        </div>
     </div>
 
 {% endblock %}

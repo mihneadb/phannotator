@@ -13,3 +13,9 @@ class AddCommentForm(forms.ModelForm):
         model = Comment
         fields = ('author', 'text')
         widgets = {'text': Textarea()}
+
+class SearchImageForm(forms.Form):
+    search = forms.CharField(max_length=100, required=False)
+
+    def clean_search(self):
+        return self.cleaned_data['search']

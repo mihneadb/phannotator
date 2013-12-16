@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
 
-from frontend.forms import AddCommentForm
+from frontend.forms import AddCommentForm, SearchImageForm
 from server.models import *
 
 @require_http_methods(["POST"])

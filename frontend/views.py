@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect, get_object_or_404
 
-from frontend.forms import UploadImageForm, AddCommentForm
+from frontend.forms import UploadImageForm, AddCommentForm, SearchImageForm
 from server.models import Image, Comment
 import urllib
 
@@ -10,8 +10,24 @@ class IndexView(TemplateView):
 
     def get(self, request):
         imgs = Image.objects.all()
-        return render(request, self.template_name, {'imgs': imgs})
+        form = SearchImageForm()
+        params = {
+            'imgs': imgs,
+            'form': form,
+        }
+        return render(request, self.template_name, params)
 
+    def post(self, request):
+        form = SearchImageForm(request.POST)
+        if form.is_valid():
+            search = request.POST.get('search')
+            imgs = Image.objects.filter(title__contains=search)
+            params = {
+                'form': form,
+                'imgs': imgs,
+            }
+            return render(request, self.template_name, params)
+        return redirect('index')
 
 class UploadView(TemplateView):
     template_name = "upload.html"
