@@ -1,5 +1,6 @@
 html, body {
   background-image:url('../img/background.jpg');
+  color: white;
 }
 
 .title {
@@ -74,6 +75,10 @@ html, body {
     margin-top: 1%;
 }
 
+#comments-container {
+    max-height: 260px;
+    overflow: scroll;
+}
 
 /*spinner from http://www.designcouch.com/home/why/2013/05/23/dead-simple-pure-css-loading-spinner/ */
 .spinner {
