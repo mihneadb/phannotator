@@ -100,6 +100,9 @@ function selectAnnotation() {
             $("#current-annotation")[0].innerHTML = $op.get(0).label;
         },
     });
+
+    // also update the box over the image when we change the annotation.
+    redraw();
 }
 $annotationSelect.on("change", selectAnnotation);
 
