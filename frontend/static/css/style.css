@@ -1,3 +1,11 @@
+html, body {
+  background-image:url('../img/background.jpg');
+}
+
+.title {
+  color: #2ba6cb;
+}
+
 #img-viewer-div {
     margin-bottom: 40px;
     text-align: center;
@@ -65,12 +73,6 @@
 #comments {
     margin-top: 1%;
 }
-
-
-
-
-
-
 
 
 /*spinner from http://www.designcouch.com/home/why/2013/05/23/dead-simple-pure-css-loading-spinner/ */
