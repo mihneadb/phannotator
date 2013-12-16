@@ -1,6 +1,6 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponse
 from django.core import serializers
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
 
 from frontend.forms import AddCommentForm
@@ -30,15 +30,6 @@ def delete_annotation(request):
     ann.delete()
     return HttpResponse(status=200)
 
-@require_http_methods(["GET"])
-def get_annotations(request, pk):
-    img = get_object_or_404(Image, pk=pk)
-    anns = Annotation.objects.filter(image=img).all()
-    data = serializers.serialize('json', anns)
-
-    return HttpResponse(data, content_type='application/json')
-
-
 @require_http_methods(["POST"])
 def add_comment(request, imgpk, annpk):
     img = get_object_or_404(Image, pk=imgpk)
@@ -56,4 +47,4 @@ def get_comments(request, annpk):
     ann = get_object_or_404(Annotation, pk=annpk)
     comments = Comment.objects.filter(annotation=ann)
     data = serializers.serialize('json', comments)
-    return HttpResponse(data, content_type="application/json")
+    return HttpResponse(data, content_type='application/json')

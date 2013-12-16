@@ -21,6 +21,10 @@ var csrf = $("html").data("csrf");
 var imgpk = $canvas.data("img-pk");
 var setAnnotation = false;
 
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 function coordsInCanvas(x, y) {
     dx = $canvas.offset().left;
     dy = $canvas.offset().top;
@@ -47,7 +51,8 @@ function showImage() {
         canvas.height = displaySize.height;
         canvas.width = displaySize.width;
         context.drawImage(img, 0, 0, displaySize.width, displaySize.height);
-        getAnnotations();
+        redraw();
+        selectAnnotation();
         $spinner.addClass("hide");
     }
     img.src = $canvas.data("img-src");
@@ -67,58 +72,36 @@ var drawedRect = false;
 var startX = null;
 var startY = null;
 
-var annotations = [];
+/* Changing the annotation label does:
+ * - redraw corresponding rectangle over image
+ * - load the comments from selected annotation
+ */
+function selectAnnotation() {
+    if (annotationSelect.selectedIndex == -1)
+        return;
 
-function getAnnotations() {
+    // get the new selected option
+    var $op = $(annotationSelect.options[annotationSelect.selectedIndex]);
+    if (!$op)
+        return;
+
+    // get the comments from API
     $.ajax({
-        type: "GET",
-        url: "/api/annotations/get/" + imgpk,
-        success: function (data, status) {
-            annotations = [];
-            $annotationSelect.empty();
-            for (var i = 0; i < data.length; i++) {
-                var o = data[i];
-                var fields = o.fields;
-                var r = {
-                    height: fields.height,
-                    width: fields.width,
-                    x: fields.x,
-                    y: fields.y,
-                    name: fields.name,
-                    pk: o.pk,
-                };
-                annotations.push(r);
-                $annotationSelect.append($('<option value="' + r.name + '">' + r.name + '</option>'));
-                redraw();
+       type: "GET",
+       url: "/comment/get/" + $op.attr("data-pk"),
+       success: function (comments, status) {
+            $("#comments-container").html("");
+            for (var i = 0; i < comments.length; ++i) {
+                $("#comments-container").append('<div class="comment panel"><p>' +
+                comments[i].fields.text + '</p><p class="text-right">by ' + comments[i].fields.author + '</p></div>');
             }
-            annotationSelect.selectedIndex = data.length - 1;
-            setFormAction();
+
+            commentForm.action = "/comment/add/" + $op.attr('data-img_pk') + "/" + $op.attr('data-pk');
+            $("#current-annotation")[0].innerHTML = $op.get(0).label;
         },
     });
 }
-
-function setFormAction() {
-    if (annotationSelect.selectedIndex == -1) {
-        return;
-    }
-    var name = annotationSelect.options[annotationSelect.selectedIndex].label;
-    var ann = null;
-    annotations.forEach(function (e) {
-        e.selected = false;
-        if (e.name == name) {
-            ann = e;
-        }
-    });
-    if (!ann) {
-        return;
-    }
-    ann.selected = true;
-    redraw();
-
-    commentForm.action = "/comment/add/" + imgpk + "/" + ann.pk;
-    $("#current-annotation")[0].innerHTML = ann.name;
-}
-$annotationSelect.on("change", setFormAction);
+$annotationSelect.on("change", selectAnnotation);
 
 function deleteAnnotation() {
     if (annotationSelect.selectedIndex == -1) {
@@ -217,7 +200,6 @@ $canvas.on("mouseup", function (e) {
             $annotationAddDiv.addClass("hide");
             annotationClick = false;
             redraw();
-            getAnnotations();
         });
     }
 })
@@ -226,12 +208,14 @@ function redraw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.drawImage(img, 0, 0, displaySize.width, displaySize.height);
 
-    for (var i = 0; i < annotations.length; i++) {
-        var r = annotations[i];
-        if (r.selected) {
-            context.strokeStyle = "red";
-            context.strokeRect(r.x, r.y, r.width, r.height);
-        }
+    var selectedIndex = annotationSelect.selectedIndex;
+    if (isNumber(selectedIndex)) {
+        $op = $(annotationSelect.options[selectedIndex]);
+        if (!$op)
+            return;
+        context.strokeStyle = "red";
+        context.strokeRect($op.attr("data-x"), $op.attr("data-y"),
+                           $op.attr("data-width"), $op.attr("data-height"));
     }
 }
 

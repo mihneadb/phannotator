@@ -37,7 +37,7 @@
         <div class="small-4 columns">
             <select id="annotation-select">
                 {% for ann in annotations %}
-                    <option value="{{ ann.name }}">{{ ann.name }}</option>
+                    <option data-x="{{ ann.x }}" data-y="{{ ann.y }}" data-height="{{ ann.height }}" data-width="{{ ann.width }}" data-pk="{{ ann.pk }}" data-img_pk="{{ ann.image.pk }}" value="{{ ann.name }}">{{ ann.name }}</option>
                 {% endfor %}
             </select>
 
@@ -56,12 +56,8 @@
                 </div>
             </div>
 
-            {%  for comment in comments %}
-                <div class="comment panel">
-                    <p>{{ comment.text }}</p>
-                    <p class="text-right">by {{ comment.author }} on {{ comment.annotation.name }}</p>
-                </div>
-            {% endfor %}
+            <div id="comments-container">
+            </div>
 
             {% if annotations %}
                 <div class="add-comment-div panel">

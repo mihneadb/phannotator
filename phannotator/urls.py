@@ -19,7 +19,6 @@ urlpatterns = patterns('',
 
     # API // ajax
     url(r'^api/annotations/add$', 'server.views.add_annotation'),
-    url(r'^api/annotations/get/(?P<pk>[0-9]+)$', 'server.views.get_annotations'),
     url(r'^api/annotations/delete$', 'server.views.delete_annotation'),
 
     # MEDIA_URL = /imagedata/
