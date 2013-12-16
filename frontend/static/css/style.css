@@ -1,5 +1,6 @@
 html, body {
     background-image:url('../img/background.jpg');
+    color: white;
 }
 .title {
     color: #2ba6cb;
