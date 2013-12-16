@@ -1,10 +1,8 @@
 html, body {
-  background-image:url('../img/background.jpg');
-  color: white;
+    background-image:url('../img/background.jpg');
 }
-
 .title {
-  color: #2ba6cb;
+    color: #2ba6cb;
 }
 
 #img-viewer-div {
@@ -35,6 +33,10 @@ html, body {
 #annotation-cancel-btn{
     margin: 1px;
     margin-top: 4px;
+}
+
+#annotation-delete-btn{
+    margin-top: 12px;
 }
 
 #annotations{
@@ -76,7 +78,7 @@ html, body {
 }
 
 #comments-container {
-    max-height: 260px;
+    max-height: 340px;
     overflow: scroll;
 }
 
