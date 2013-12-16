@@ -14,6 +14,8 @@ urlpatterns = patterns('',
     url(r'^image/(?P<pk>[0-9]+)$', ImageView.as_view(), name='image'),
 
     url(r'^comment/add/(?P<imgpk>[0-9]+)/(?P<annpk>[0-9]+)$', 'server.views.add_comment', name='add_comment'),
+    url(r'^comment/get/(?P<annpk>[0-9]+)$', 'server.views.get_comments', name='get_comments'),
+
 
     # API // ajax
     url(r'^api/annotations/add$', 'server.views.add_annotation'),

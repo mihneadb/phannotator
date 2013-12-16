@@ -4,7 +4,7 @@ from django.core import serializers
 from django.views.decorators.http import require_http_methods
 
 from frontend.forms import AddCommentForm
-from server.models import Image, Annotation
+from server.models import *
 
 @require_http_methods(["POST"])
 def add_annotation(request):
@@ -50,3 +50,10 @@ def add_comment(request, imgpk, annpk):
         c.annotation = ann
         c.save()
     return redirect('image', pk=imgpk)
+
+@require_http_methods(["GET"])
+def get_comments(request, annpk):
+    ann = get_object_or_404(Annotation, pk=annpk)
+    comments = Comment.objects.filter(annotation=ann)
+    data = serializers.serialize('json', comments)
+    return HttpResponse(data, content_type="application/json")
