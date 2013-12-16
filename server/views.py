@@ -19,7 +19,8 @@ def add_annotation(request):
     ann = Annotation(x=x, y=y, width=width, height=height, name=name, image=img)
     ann.save()
 
-    return HttpResponse(status=200)
+    data = serializers.serialize('json', [ann])
+    return HttpResponse(data, content_type='application/json')
 
 @require_http_methods(["POST"])
 def delete_annotation(request):

@@ -190,7 +190,9 @@ $canvas.on("mouseup", function (e) {
                     },
                     success: function (data, status) {
                         // hack: refresh page as new annotations were added.
-                        location.reload(true);
+                        // but we need to specify that the annotation just
+                        // created to remain selected.
+                        location.href = "/image/" + imgpk + "/?selected=" + data[0].pk;
                     },
                 });
             }

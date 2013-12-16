@@ -37,7 +37,11 @@
         <div class="small-4 columns">
             <select id="annotation-select">
                 {% for ann in annotations %}
-                    <option data-x="{{ ann.x }}" data-y="{{ ann.y }}" data-height="{{ ann.height }}" data-width="{{ ann.width }}" data-pk="{{ ann.pk }}" data-img_pk="{{ ann.image.pk }}" value="{{ ann.name }}">{{ ann.name }}</option>
+                    {% if ann.pk == selected %}
+                        <option selected="true" data-x="{{ ann.x }}" data-y="{{ ann.y }}" data-height="{{ ann.height }}" data-width="{{ ann.width }}" data-pk="{{ ann.pk }}" data-img_pk="{{ ann.image.pk }}" value="{{ ann.name }}">{{ ann.name }}</option>
+                    {% else %}
+                        <option data-x="{{ ann.x }}" data-y="{{ ann.y }}" data-height="{{ ann.height }}" data-width="{{ ann.width }}" data-pk="{{ ann.pk }}" data-img_pk="{{ ann.image.pk }}" value="{{ ann.name }}">{{ ann.name }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
 

@@ -71,9 +71,16 @@ class ImageView(TemplateView):
         comment_form = AddCommentForm()
         comments = Comment.objects.filter(image=img)
         anns = img.annotation_set.all()
+
+        if request.GET.get('selected'):
+            selected = int(request.GET.get('selected'))
+        else:
+            selected = None
+
         return render(request, self.template_name, {'imgurl': img.fetch_url,
                                                     'imgpk': img.pk,
                                                     'comment_form': comment_form,
                                                     'comments': comments,
-                                                    'annotations': anns,})
+                                                    'annotations': anns,
+                                                    'selected': selected})
 
