@@ -1,6 +1,7 @@
 from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_http_methods
 
 from frontend.forms import AddCommentForm, SearchImageForm
@@ -41,7 +42,8 @@ def add_comment(request, imgpk, annpk):
         c.image = img
         c.annotation = ann
         c.save()
-    return redirect('image', pk=imgpk)
+    url = reverse('image', kwargs={'pk': imgpk})
+    return redirect(url + '?selected=' + annpk)
 
 @require_http_methods(["GET"])
 def get_comments(request, annpk):
