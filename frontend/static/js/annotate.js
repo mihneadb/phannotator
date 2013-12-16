@@ -7,6 +7,7 @@ var displaySize = null;
 
 var $annotationAddDiv = $("#annotation-add-div");
 var $annotationSelect = $("#annotation-select");
+var $annotationAddInput = $("#annotation-add-input");
 var annotationSelect = $annotationSelect.get(0);
 
 var $commentForm = $("#comment-form");
@@ -153,6 +154,7 @@ $canvas.on("mouseup", function (e) {
             height: coords.y - startY,
         };
         $annotationAddDiv.toggleClass("hide");
+        $annotationAddInput.focus();
 
         if (rect.width < 20 && rect.height < 20) {
             redraw();
@@ -168,7 +170,6 @@ $canvas.on("mouseup", function (e) {
         var annotationClick = true;
         $("#annotation-add-btn").on("click", function (e) {
             setAnnotation = false;
-            var $annotationAddInput = $("#annotation-add-input");
             var input = $annotationAddInput.get(0);
             var name = input.value;
             rect.name = name;
